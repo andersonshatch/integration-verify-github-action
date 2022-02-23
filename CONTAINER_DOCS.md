@@ -40,12 +40,12 @@ contrast_verify:
   image: ghcr.io/contrast-security-oss/integration-verify:latest
   stage: verify
   variables:
-    APIKEY: $CONTRAST__API_KEY
-    ORGID: $CONTRAST__ORG_ID
-    APIURL: https://$CONTRAST_HOST
-    AUTHHEADER: $CONTRAST__AUTHORIZATION
-    APPNAME: $APP_NAME
-    BUILDNUMBER: $CI_COMMIT_SHORT_SHA
+    API_KEY: $CONTRAST__API_KEY
+    ORG_ID: $CONTRAST__ORG_ID
+    API_URL: https://$CONTRAST_HOST
+    AUTH_HEADER: $CONTRAST__AUTHORIZATION
+    APP_NAME: $APP_NAME
+    BUILD_NUMBER: $CI_COMMIT_SHORT_SHA
   script:
     - /usr/bin/env python3 /verify.py
 ```
