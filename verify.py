@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 from base64 import b64encode
+from sys import version_info
 from urllib.parse import urlparse
 
 import requests
 from requests.exceptions import RequestException
+from requests.utils import default_user_agent as requests_default_user_agent
 
 from input_output_helpers import InputHelper, OutputHelper
+from version import __version__
 
 
 def validate_inputs():
@@ -105,11 +108,18 @@ class ContrastVerifyAction:
     def teamserver_headers(self):
         """Generate common request headers for TeamServer."""
         if not self._headers:
+            github_suffix = (
+                "-github-action" if self._output_helper.is_github_actions() else ""
+            )
+            integration_version = f"integration-verify{github_suffix}/{__version__}"
+            python_version = ".".join(map(str, version_info[:3]))
+
             self._headers = {
                 "Accept": "application/json",
                 "Content-Type": "application/json",
                 "Api-Key": self._contrast_api_key,
                 "Authorization": self._contrast_authorization,
+                "User-Agent": f"{integration_version} {requests_default_user_agent()} python/{python_version}",
             }
         return self._headers
 
